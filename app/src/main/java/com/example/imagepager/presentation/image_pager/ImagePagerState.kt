@@ -4,5 +4,6 @@ import com.example.imagepager.data.remote.model.Page
 
 data class ImagePagerState(
     val isFetchingApi: Boolean = true,
-    val page: Page? = null
+    val error: String = "",
+    val page: Page? = null,
 )
