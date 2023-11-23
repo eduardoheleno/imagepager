@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                             networkHandle.isNetworkConnected(applicationContext) &&
                             networkHandle.isInternetAvailable()
                         ) {
-                            imagePagerViewModel.onEvent(ImagePagerEvent.FetchImages)
+                            imagePagerViewModel.onEvent(ImagePagerEvent.FetchPage())
                         } else {
                             val error = "Your device has no access to the internet."
                             imagePagerViewModel.onEvent(ImagePagerEvent.Error(error))
@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 imagePagerViewModel = hiltViewModel()
-                ImagePager(imagePagerViewModel.state)
+                ImagePager(imagePagerViewModel.state, imagePagerViewModel::onEvent)
             }
         }
     }

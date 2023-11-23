@@ -22,11 +22,10 @@ class NetworkHandle {
 
     fun isInternetAvailable(): Boolean {
         return try {
-            val timeoutMs = 1500
-            val socket = InetAddress.getByName("8.8.8.8").isReachable(timeoutMs)
+            val timeoutMs = 10000
+            val socket = InetAddress.getByName("www.google.com.br").isReachable(timeoutMs)
             socket
         } catch (e: Exception) {
-            println(e.toString())
             false
         }
     }

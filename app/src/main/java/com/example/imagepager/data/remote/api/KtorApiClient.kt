@@ -29,7 +29,7 @@ class KtorApiClient {
         }
     }
 
-    suspend fun fetchImages(perPage: Int): Page {
-        return httpClient.get("v1/curated?per_page=$perPage").body()
+    suspend fun fetchImages(perPage: Int, page: Int): Page {
+        return httpClient.get("v1/curated?per_page=$perPage&page=$page").body()
     }
 }

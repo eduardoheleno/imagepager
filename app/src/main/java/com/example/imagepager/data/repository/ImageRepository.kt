@@ -6,8 +6,8 @@ import com.example.imagepager.data.remote.model.Page
 class ImageRepository(
     private val apiClient: KtorApiClient
 ) {
-    suspend fun fetchImages(): Page {
-        return apiClient.fetchImages(DEFAULT_PER_PAGE)
+    suspend fun fetchImages(page: Int): Page {
+        return apiClient.fetchImages(DEFAULT_PER_PAGE, page)
     }
 
     companion object {

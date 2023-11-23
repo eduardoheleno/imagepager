@@ -22,23 +22,31 @@ class ImagePagerViewModel @Inject constructor(
 
     fun onEvent(event: ImagePagerEvent) {
         when (event) {
-            is ImagePagerEvent.FetchImages -> fetchImages()
+            is ImagePagerEvent.FetchPage -> fetchPage(event.page)
             is ImagePagerEvent.Error -> {
                 _state.value = ImagePagerState(
                     isFetchingApi = false,
-                    page = null,
+                    photos = null,
                     error = event.error
                 )
             }
         }
     }
 
-    private fun fetchImages() = viewModelScope.launch(Dispatchers.IO) {
+    private fun fetchPage(page: Int = 1) = viewModelScope.launch(Dispatchers.IO) {
         try {
-            val fetchedImages = imageRepository.fetchImages()
+            val fetchedPage = imageRepository.fetchImages(page)
+            var photosListToState = fetchedPage.photos
+
+            if (!_state.value.photos.isNullOrEmpty()) {
+                val newPhotosList = _state.value.photos!!.toMutableList()
+                newPhotosList.addAll(fetchedPage.photos)
+                photosListToState = newPhotosList.toTypedArray()
+            }
+
             _state.value = ImagePagerState(
                 isFetchingApi = false,
-                page = fetchedImages
+                photos = photosListToState.asList()
             )
         } catch (e: Exception) {
             onEvent(ImagePagerEvent.Error(e.toString()))

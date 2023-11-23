@@ -7,12 +7,12 @@ import com.example.imagepager.presentation.image_pager.components.Loading
 import com.example.imagepager.presentation.image_pager.components.Pager
 
 @Composable
-fun ImagePager(state: State<ImagePagerState>) {
+fun ImagePager(state: State<ImagePagerState>, onEvent: (ImagePagerEvent) -> Unit) {
     if (state.value.isFetchingApi) {
         Loading()
     } else if (state.value.error.isNotBlank()) {
         Error(state.value.error)
-    } else if (state.value.page != null) {
-        Pager(state.value.page)
+    } else if (state.value.photos != null) {
+        Pager(state.value.photos!!, onEvent)
     }
 }
